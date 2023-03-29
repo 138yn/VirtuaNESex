@@ -45,13 +45,13 @@ void	Mapper169::Reset()
 	if(crc == 0x2B1B969E	//YX_V8.2-D
 	|| crc == 0xA70FD0F3)	//YX_V8.3-D
 	{
-		YX_type = 0;	//DÐÍ
+		YX_type = 0;	//Dåž‹
 	}
 	if(crc == 0x6085FEE8	//YX_V9.0-98
 	|| crc == 0x2A1E4D89	//YX_V9.2-98
 	|| crc == 0x5C6CE13E)	//YX_V9.2-F
 	{
-		YX_type = 1;	//98ÐÍ & FÐÍ
+		YX_type = 1;	//98åž‹ & Fåž‹
 	}
 
 	nes->ppu->SetExtLatchMode( TRUE );
@@ -168,11 +168,11 @@ BYTE	Mapper169::ReadLow( WORD addr )
 			return reg[0];
 			break;
 
-		case	0x4304:	//FDCÖ÷×´Ì¬¼Ä´æÆ÷(STATUS)
+		case	0x4304:	//FDCä¸»çŠ¶æ€å¯„å­˜å™¨(STATUS)
 //			DEBUGOUT( "Read  0x4304 = %04X\n", nFdcMainStatus );
 			return nFdcMainStatus;
 			break;
-		case	0x4305:	//FDC¶ÁÊý¾Ý???
+		case	0x4305:	//FDCè¯»æ•°æ®???
 			if(read_mode){
 				read_mode1++;
 				if(read_mode1==512) read_mode=0;
@@ -213,7 +213,7 @@ void	Mapper169::WriteLow( WORD addr, BYTE data )
 			DEBUGOUT( "Write 0x4200 = %04X\n", data );
 			//
 			break;
-		case	0x4201://FDCÊý×ÖÊä³ö¼Ä´æÆ÷(DOR)(Êý×Ö¿ØÖÆ¼Ä´æÆ÷)
+		case	0x4201://FDCæ•°å­—è¾“å‡ºå¯„å­˜å™¨(DOR)(æ•°å­—æŽ§åˆ¶å¯„å­˜å™¨)
 			DEBUGOUT( "Write 0x4201 = %04X\n", data );
 			bFdcDmaInt = (data & 8) ? TRUE : FALSE;
 			nFdcDrvSel = data & 3;
@@ -258,7 +258,7 @@ void	Mapper169::WriteLow( WORD addr, BYTE data )
 			}
 */
 			break;
-		case	0x4205:	//FDCÐ´Êý¾Ý???
+		case	0x4205:	//FDCå†™æ•°æ®???
 			DEBUGOUT( "Write 0x4205 = %04X\n", data );
 			read_mode = 0;
 			switch (bFdcPhase)
@@ -312,22 +312,22 @@ void	Mapper169::WriteLow( WORD addr, BYTE data )
 
 		case	0x4800:
 			reg[1] = data;
-			cmd_4800_6 = reg[1]&0x20;	//»ñÈ¡µÚ6Î»£¬RAM¿ª¹Ø£¬1´ò¿ª£¬0¹Ø±Õ
-			cmd_4800_7 = reg[1]&0x40;	//»ñÈ¡µÚ7Î»
-			cmd_4800_8 = reg[1]&0x80;	//»ñÈ¡µÚ8Î»£¬ÓÃÓÚ¿ØÖÆPPU_ExtLatch
+			cmd_4800_6 = reg[1]&0x20;	//èŽ·å–ç¬¬6ä½ï¼ŒRAMå¼€å…³ï¼Œ1æ‰“å¼€ï¼Œ0å…³é—­
+			cmd_4800_7 = reg[1]&0x40;	//èŽ·å–ç¬¬7ä½
+			cmd_4800_8 = reg[1]&0x80;	//èŽ·å–ç¬¬8ä½ï¼Œç”¨äºŽæŽ§åˆ¶PPU_ExtLatch
 
 			SetBank_CPU();
 			break;
 		case	0x5500:
 			reg[2] = data;
-			cmd_5500_3 = reg[2]&0x04;	//»ñÈ¡µÚ3Î»£¬Óë¿ØÖÆRAMÓÐ¹Ø
-			cmd_5500_8 = reg[2]&0x80;	//»ñÈ¡µÚ8Î»£¬ÓÃÓÚ¿ØÖÆPPU_Latch
+			cmd_5500_3 = reg[2]&0x04;	//èŽ·å–ç¬¬3ä½ï¼Œä¸ŽæŽ§åˆ¶RAMæœ‰å…³
+			cmd_5500_8 = reg[2]&0x80;	//èŽ·å–ç¬¬8ä½ï¼Œç”¨äºŽæŽ§åˆ¶PPU_Latch
 
 			SetBank_CPU();
 			break;
 		case	0x5501:
 			reg[3] = data;
-			cmd_5501_8 = reg[3]&0x80;	//»ñÈ¡µÚ8Î»£¬¿ªÆôMMC3Ä£Ê½£¬µ÷ÓÃ¡°ÉñÆæ»­°å¡±Ñ¡Ïî(???)
+			cmd_5501_8 = reg[3]&0x80;	//èŽ·å–ç¬¬8ä½ï¼Œå¼€å¯MMC3æ¨¡å¼ï¼Œè°ƒç”¨â€œç¥žå¥‡ç”»æ¿â€é€‰é¡¹(???)
 
 			SetYCRAM_8K_Bank( reg[3] & 0x7F );
 			if(cmd_5501_8){
@@ -432,10 +432,10 @@ void	Mapper169::PPU_ExtLatch( WORD ntbladr, BYTE& chr_l, BYTE& chr_h, BYTE& attr
 		chr_h = PPU_MEM_BANK[tileadr>>10][(tileadr&0x03FF)+8];
 	}
 }
-BYTE	Mapper169::PPU_ExtLatchSP()	//²¿·ÖÐÞÕý¾«ÁéÑÕÉ«ÎÊÌâ£¬Î´ÍêÈ«
+BYTE	Mapper169::PPU_ExtLatchSP()	//éƒ¨åˆ†ä¿®æ­£ç²¾çµé¢œè‰²é—®é¢˜ï¼Œæœªå®Œå…¨
 {
 	if(cmd_4800_8 && !cmd_5500_8)
-		return 2;	//ÔÝÊ±Èç´Ë´¦Àí£¬¾ßÌåÔ­ÒòÎ´Öª£¬¼«ÓÐ¿ÉÄÜÊÇVirtuaNES±¾ÉíµÄÎÊÌâ¡£
+		return 2;	//æš‚æ—¶å¦‚æ­¤å¤„ç†ï¼Œå…·ä½“åŽŸå› æœªçŸ¥ï¼Œæžæœ‰å¯èƒ½æ˜¯VirtuaNESæœ¬èº«çš„é—®é¢˜ã€‚
 	return 0;
 }
 
@@ -526,13 +526,13 @@ void Mapper169::FdcSoftReset(void)
 	bFdcPhase = FDC_PH_IDLE;
 }
 
-//¶ÁÊý¾ÝÃüÁî(READ DATA)
+//è¯»æ•°æ®å‘½ä»¤(READ DATA)
 void Mapper169::FdcReadData(Mapper169* thiz)
 {
 	DEBUGOUT( "FdcReadData!!!\n" );
-	BYTE C = thiz->bFdcCommands[2];	//´ÅµÀºÅ
-	BYTE H = thiz->bFdcCommands[3];	//´ÅÍ·ºÅ
-	BYTE R = thiz->bFdcCommands[4];	//ÉÈÇøºÅ
+	BYTE C = thiz->bFdcCommands[2];	//ç£é“å·
+	BYTE H = thiz->bFdcCommands[3];	//ç£å¤´å·
+	BYTE R = thiz->bFdcCommands[4];	//æ‰‡åŒºå·
 	BYTE N = thiz->bFdcCommands[5];
 	INT LBA = H * 18 + C * 36 + (R - 1);
 	DEBUGOUT( "C = %04X\n", C );
@@ -565,10 +565,44 @@ void Mapper169::FdcReadData(Mapper169* thiz)
 	thiz->nFdcRecord = R;
 	thiz->nFdcNumber = N;
 }
-//Ð´Êý¾ÝÃüÁî(WRITE DATA)
+//å†™æ•°æ®å‘½ä»¤(WRITE DATA)
 void Mapper169::FdcWriteData(Mapper169* thiz)
 {
 	DEBUGOUT( "FdcWriteData!!!\n" );
+	BYTE C = thiz->bFdcCommands[2];	//ç£é“å·
+	BYTE H = thiz->bFdcCommands[3];	//ç£å¤´å·
+	BYTE R = thiz->bFdcCommands[4];	//æ‰‡åŒºå·
+	BYTE N = thiz->bFdcCommands[5];
+	INT LBA = H * 18 + C * 36 + (R - 1);
+	DEBUGOUT( "C = %04X\n", C );
+	DEBUGOUT( "H = %04X\n", H );
+	DEBUGOUT( "R = %04X\n", R );
+	DEBUGOUT( "N = %04X\n", N );
+	thiz->pFdcDataPtr = thiz->DISK + LBA * 512;
+	R++;
+	if (19 == R)
+	{
+		R = 1;
+		H++;
+		if (2 == H)
+		{
+			C++;
+			if (80 == C)
+				C = 0;
+		}
+	}
+	thiz->nFDCStatus[0] = 0;
+	thiz->bFdcResults[0] = thiz->nFDCStatus[0]; // ST0
+	thiz->bFdcResults[1] = thiz->nFDCStatus[1]; // ST1
+	thiz->bFdcResults[2] = thiz->nFDCStatus[2]; // ST2
+	thiz->bFdcResults[3] = C;
+	thiz->bFdcResults[4] = H;
+	thiz->bFdcResults[5] = R;
+	thiz->bFdcResults[6] = N;
+	thiz->nFdcCylinder = C;
+	thiz->nFdcHeadAddres = H;
+	thiz->nFdcRecord = R;
+	thiz->nFdcNumber = N;
 	thiz = thiz;
 }
 
@@ -597,7 +631,7 @@ void Mapper169::FdcSenseDriveStatus(Mapper169* thiz)
 void Mapper169::FdcRecalibrate(Mapper169* thiz)
 {
 	DEBUGOUT( "FdcRecalibrate!!!\n" );
-	thiz->nFdcCylinder = 0;	//´ÅÍ·»Øµ½0´ÅµÀ
+	thiz->nFdcCylinder = 0;	//ç£å¤´å›žåˆ°0ç£é“
 	thiz->nFDCStatus[0] |= FDC_S0_SE;
 }
 void Mapper169::FdcSenseIntStatus(Mapper169* thiz)
